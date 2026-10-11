@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""v6 单通道 MSRS-ABiLSTM 与共有故障类 MMD（固定 spectral_v1 口径，固定三带宽核）。
+"""v6 单通道 MSRS-ABiLSTM、共有故障类 MMD 与跨域监督对比（固定 spectral_v1 口径）。
 
 由 v5 `model.py` 复制而来，结构逐字段不动（旧权重仍按 `load_checkpoint` 装载），
 只删 P4 的中值带宽分支（`median` 核 MMD 不迁移，见 `docs/v5复用与迁移清单.md` §3）。
@@ -14,13 +14,18 @@
     ⑤ AdditiveAttention → 上下文 (B,256) + 权重 (B,8)
     ⑥ 分类头 FC(256→64)→ReLU→Dropout(0.5)→FC(64→4)
 
-对齐损失 classwise_mmd_loss：只对共有故障类 Ball/IR/OR 按真实标注逐类调用 mmd_loss 后
-等类平均；任一域当前类不足 2 个样本则跳过该类，无有效类返回设备上的零，不回退全局 MMD，
-不加伪标签分支。源 Normal 只走源 CE，分类头仍保持四类。
+对齐损失两个，按臂二选一（第一轮 classwise_mmd_loss；下一批候选 supcon_adapt 用 supcon_loss）：
+- classwise_mmd_loss：只对共有故障类 Ball/IR/OR 按真实标注逐类调用 mmd_loss 后等类平均；
+  任一域当前类不足 2 个样本则跳过该类，无有效类返回设备上的零，不回退全局 MMD，
+  不加伪标签分支。第一轮实测无净效果：两域 batch 的边缘分布已被均衡采样器对齐，MMD 无事可做。
+- supcon_loss：源+目标拼接 batch 的监督对比（正对=同类），约束嵌入空间的类边界几何，
+  正对第一轮暴露的错误结构（OR 与相邻类的定向混淆）。
+源 Normal 只走源 CE，分类头仍保持四类。
 """
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import math
 
 
 class SMCBlock(nn.Module):
@@ -200,6 +205,40 @@ def classwise_mmd_loss(features_source, labels_source, features_target, labels_t
     return torch.stack(terms).mean()
 
 
+# ---------------------------------------------------------------------------
+# 跨域监督对比：约束类边界几何，不约束已被均衡采样器对齐的边缘分布
+# ---------------------------------------------------------------------------
+#: supcon 温度（冻结常用值，不进 CLI）。
+SUPCON_TEMPERATURE = 0.1
+
+
+def supcon_loss(features_source, labels_source, features_target, labels_target,
+                temperature=SUPCON_TEMPERATURE):
+    """源+目标拼接 batch 的监督对比（SupCon）：正对=同类样本，跨域同类对随之拉近。
+
+    特征先 L2 归一化，相似度为余弦/温度；每行对全部同类对取平均 InfoNCE，
+    分母含批内全部其他样本。任一域为空或批内无同类对返回设备上的标量零。
+    与 classwise_mmd_loss 的区别：MMD 对齐边缘分布（均衡采样器已做），
+    这里对齐条件结构（同类跨域聚拢、异类分开），正对类边界混淆。
+    """
+    if features_source.size(0) < 1 or features_target.size(0) < 1:
+        return features_source.new_zeros(())
+    features = torch.cat([features_source, features_target], dim=0)
+    labels = torch.cat([labels_source, labels_target], dim=0)
+    z = F.normalize(features, dim=1)
+    logits = z @ z.t() / temperature
+    eye = torch.eye(logits.size(0), dtype=torch.bool, device=z.device)
+    positive = (labels[:, None] == labels[None, :]) & ~eye
+    if not positive.any():
+        return features_source.new_zeros(())
+    logits = logits.masked_fill(eye, float("-inf"))
+    log_prob = logits - torch.logsumexp(logits, dim=1, keepdim=True)
+    # 非正对位置先置零再乘 mask：对角 log_prob=-inf，0×(-inf)=NaN，直接乘会毒化整行。
+    log_prob = log_prob.masked_fill(~positive, 0.0)
+    per_row = -log_prob.sum(dim=1) / positive.sum(dim=1).clamp_min(1)
+    return per_row.mean().clamp_min(0)  # 数学上非负，clamp 只滤 logsumexp 的 1e-8 级浮点噪声
+
+
 if __name__ == "__main__":
     # 不训练自检：固定种子跑一次前向，只验形状与注意力归一。
     torch.manual_seed(0)
@@ -209,4 +248,11 @@ if __name__ == "__main__":
     assert attention.shape == (2, 8)
     assert feature.shape == (2, 256)
     assert torch.allclose(attention.sum(dim=1), torch.ones(2), atol=1e-5)
+    align = supcon_loss(torch.randn(4, 8), torch.tensor([0, 0, 1, 1]),
+                        torch.randn(4, 8), torch.tensor([0, 1, 0, 1]))
+    assert align.ndim == 0 and torch.isfinite(align) and align >= 0
+    identical = supcon_loss(torch.zeros(4, 8), torch.tensor([0, 0, 1, 1]),
+                            torch.zeros(4, 8), torch.tensor([0, 1, 0, 1]))
+    # 零特征：logits 全 0，损失=均匀基线 log(n-1)=log(7)（无判别性特征被推离基线，有梯度）。
+    assert abs(identical.item() - math.log(7)) < 1e-5
     print("ALL MODEL CHECKS PASSED")

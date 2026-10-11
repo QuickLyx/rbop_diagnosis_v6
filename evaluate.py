@@ -34,7 +34,7 @@ PAIRS = (
 #: 达标判据（训练前写死，事后不得改）。
 CRITERION_ACCURACY = 0.95
 ARM_BY_MODE = {"source": "joint", "source_continue": "source_continue", "adabn": "adabn",
-               "ce_adapt": "ce", "mmd_adapt": "ce_mmd"}
+               "ce_adapt": "ce", "mmd_adapt": "ce_mmd", "supcon_adapt": "supcon"}
 
 
 def _model_from_checkpoint(checkpoint_path, require_v6=True):

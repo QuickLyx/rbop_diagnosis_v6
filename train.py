@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""v6 训练入口：一次流程一个目录，四种臂（source_continue / adabn / ce_adapt / mmd_adapt）。
+"""v6 训练入口：一次流程一个目录，五种臂（source_continue / adabn / ce_adapt / mmd_adapt / supcon_adapt）。
 
 由 v5 `train.py` 收窄而来（见 `docs/v5复用与迁移清单.md` §2）：
 删 `--protocol`、`--adapt-arm`、`--label-ratio`、`--target-split-seed`、`--representation`、
@@ -18,7 +18,7 @@ from pathlib import Path
 import dataset as ds
 import experiment as ex
 import preprocessing as pp
-from model import MSRSABiLSTM
+from model import MSRSABiLSTM, SUPCON_TEMPERATURE
 from trainer import (DEVICE, dump_json, load_checkpoint, save_checkpoint, seed_everything,
                      train_adabn, train_adapt, train_source_continue, write_history)
 
@@ -34,10 +34,11 @@ def build_parser():
     parser = argparse.ArgumentParser(description="RBOP v6 训练（单表征 logspec512）")
     parser.add_argument("--data-root", default=str(ds.default_data_root()))
     parser.add_argument("--output", required=True)
-    parser.add_argument("--mode", choices=["source_continue", "adabn", "ce_adapt", "mmd_adapt"],
+    parser.add_argument("--mode", choices=["source_continue", "adabn", "ce_adapt", "mmd_adapt",
+                                           "supcon_adapt"],
                         required=True)
-    # 四种臂：source_continue=仅源 CE 续训（不接触目标）；adabn=仅目标前向更新 BN（无梯度）；
-    # ce_adapt=源重放+目标 CE；mmd_adapt=再加共有故障类 MMD。
+    # 五种臂：source_continue=仅源 CE 续训（不接触目标）；adabn=仅目标前向更新 BN（无梯度）；
+    # ce_adapt=源重放+目标 CE；mmd_adapt=再加共有故障类 MMD；supcon_adapt=对齐项换跨域监督对比。
     parser.add_argument("--target-source", choices=list(ds.TARGET_DATASETS), default=None)
     parser.add_argument("--fold", type=int, required=True)
     parser.add_argument("--seed", type=int, required=True)
@@ -63,11 +64,10 @@ def _validate(args):
         raise SystemExit(f"{args.mode} 必须指定 --target-source")
     if Path(args.source_checkpoint).name != "last.pt":
         raise SystemExit("v6 起点必须是 joint 的 last.pt，不能用 best.pt 或其他文件冒充末轮起点")
-    if args.mode == "mmd_adapt" and (not math.isfinite(args.lambda_mmd) or args.lambda_mmd <= 0):
-        raise SystemExit("mmd_adapt 要求 --lambda-mmd 为有限正数")
-    if args.mode == "ce_adapt":
-        args.lambda_mmd = 0.0
-    if args.mode != "mmd_adapt":
+    if args.mode in ("mmd_adapt", "supcon_adapt") and (not math.isfinite(args.lambda_mmd)
+                                                       or args.lambda_mmd <= 0):
+        raise SystemExit("mmd_adapt / supcon_adapt 要求 --lambda-mmd 为有限正数")
+    if args.mode not in ("mmd_adapt", "supcon_adapt"):
         args.lambda_mmd = 0.0
     if args.num_threads <= 0:
         raise SystemExit("--num-threads 必须为正数")
@@ -119,7 +119,7 @@ def run(args):
         raise ValueError("v6 后续训练必须使用同折、同种子、同预算的 joint 源 last.pt 作为起点")
 
     target = None
-    if args.mode in ("adabn", "ce_adapt", "mmd_adapt"):
+    if args.mode in ("adabn", "ce_adapt", "mmd_adapt", "supcon_adapt"):
         target = ex.prepare_target_v6(args.data_root, args.target_source, args.selection, init_repr)
 
     if args.mode == "source_continue":
@@ -132,7 +132,8 @@ def run(args):
     else:
         result = train_adapt(model, source.train, target["adapt"], source.val, FIXED_BATCH_SIZE,
                              FIXED_EPOCHS, FIXED_LR, args.lambda_mmd, args.seed, source.s_ref,
-                             progress_path=output / "progress.pt")
+                             progress_path=output / "progress.pt",
+                             alignment="supcon" if args.mode == "supcon_adapt" else "mmd")
 
     config = {
         "schema_version": 1,
@@ -156,7 +157,7 @@ def run(args):
         "last_val_accuracy_mean": result["last"]["accuracy"],
         "mode": args.mode,
         "arm": {"source_continue": "source_continue", "adabn": "adabn",
-                "ce_adapt": "ce", "mmd_adapt": "ce_mmd"}[args.mode],
+                "ce_adapt": "ce", "mmd_adapt": "ce_mmd", "supcon_adapt": "supcon"}[args.mode],
         "channels": "joint",
         "target_source": args.target_source,
         "pool_file_count": len(target["split"]["pool"]) if target else None,
@@ -176,8 +177,10 @@ def run(args):
         "target_forwards": result.get("target_forwards"),
         "s_ref": source.s_ref,
         "lambda_mmd": args.lambda_mmd,
-        "mmd_bandwidth": "fixed",
+        "mmd_bandwidth": "fixed" if args.mode == "mmd_adapt" else None,
         "mmd_sigma": list(FIXED_MMD_SIGMA) if args.mode == "mmd_adapt" else None,
+        "alignment": {"mmd_adapt": "mmd", "supcon_adapt": "supcon"}.get(args.mode),
+        "supcon_temperature": SUPCON_TEMPERATURE if args.mode == "supcon_adapt" else None,
         "class_names": ds.LABEL_NAMES,
         "input_repr": init_repr["representation"],
         "representation": init_repr["representation"],

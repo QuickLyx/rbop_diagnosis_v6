@@ -5,6 +5,7 @@
 与 `train_target_only`；`train_adapt` 去掉中值带宽分支（固定核唯一）；
 `save_checkpoint` 无条件写 `checkpoint_kind`/`checkpoint_epoch`（v5 缺 101 个的教训）。
 保留 `train_source`（`source_continue` 的引擎）与 `train_adabn`（无标注 BN 控制）。
+`train_adapt` 的对齐项参数化为 `alignment="mmd"|"supcon"`（历史列名相应记 `align`）。
 
 要点：内置权重做四步均衡；固定 S_ref 预算保证各臂同更新数；每轮记录源验证 DE/FE
 记录级 Macro-F1 均值，但 v6 正式权重恒取末轮 `last.pt`（selection_rule=last，源验证只记录不择优）；
@@ -25,7 +26,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset, WeightedRandomSampler
 
 from dataset import LABEL_NAMES
-from model import classwise_mmd_loss
+from model import classwise_mmd_loss, supcon_loss
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 SCHEMA_VERSION = 1  # v5/v6 共用同一 schema，读 v5 权重走 load_checkpoint 这一条路。
@@ -275,13 +276,16 @@ def train_source_continue(model, train_feature, val_features, batch_size=64, epo
 
 
 def train_adapt(model, source_feature, target_feature, val_features, batch_size=64,
-                epochs=30, lr=1e-4, lambda_mmd=0.0, seed=0, s_ref=None, progress_path=None):
-    """源 CE + 目标 CE（+ 共有真实故障类 MMD）；源/目标各自均衡采样。
+                epochs=30, lr=1e-4, lambda_mmd=0.0, seed=0, s_ref=None, progress_path=None,
+                alignment="mmd"):
+    """源 CE + 目标 CE（+ 对齐项 alignment="mmd"|"supcon"）；源/目标各自均衡采样。
 
-    固定核 sigma=(1,5,10)、biased 估计、只对 Ball/IR/OR 逐类等权平均、
-    任一域不足 2 样本跳类、无有效类取零且不回退全局；lambda_mmd=0 即 CE 臂。
-    目标一次前向同时返回 logits 与特征，CE 与 MMD 共用，不额外前向；
-    优化器新建（Adam 1e-4），不继承源阶段状态；每轮记录源验证，正式取末轮。
+    mmd：固定核 sigma=(1,5,10)、biased 估计、只对 Ball/IR/OR 逐类等权平均、
+    任一域不足 2 样本跳类、无有效类取零且不回退全局；supcon：源+目标拼接
+    batch 监督对比（温度 0.1，正对=同类）。lambda_mmd=0 即 CE 臂，参数名沿用
+    冻结协议的 λ。目标一次前向同时返回 logits 与特征，CE 与对齐项共用，
+    不额外前向；优化器新建（Adam 1e-4），不继承源阶段状态；每轮记录源验证，
+    正式取末轮。
     """
     if len(target_feature.X) == 0:
         raise ValueError("目标适配特征为空")
@@ -311,10 +315,13 @@ def train_adapt(model, source_feature, target_feature, val_features, batch_size=
             ce_target = F.cross_entropy(logits_t, yb_t)
             # 普通 CE，不叠逆频率类别权重：均衡已由两域采样器承担。
             if lambda_mmd:
-                mmd = classwise_mmd_loss(feat_s, yb_s, feat_t, yb_t)
+                if alignment == "supcon":
+                    align = supcon_loss(feat_s, yb_s, feat_t, yb_t)
+                else:
+                    align = classwise_mmd_loss(feat_s, yb_s, feat_t, yb_t)
             else:
-                mmd = feat_s.new_zeros(())
-            loss = ce_source + ce_target + float(lambda_mmd) * mmd
+                align = feat_s.new_zeros(())
+            loss = ce_source + ce_target + float(lambda_mmd) * align
             if not torch.isfinite(loss):
                 raise FloatingPointError(f"适配第 {epoch} 轮损失非有限，停止更新")
             optimizer.zero_grad()
@@ -322,11 +329,11 @@ def train_adapt(model, source_feature, target_feature, val_features, batch_size=
             optimizer.step()
             totals[0] += float(ce_source.item())
             totals[1] += float(ce_target.item())
-            totals[2] += float(mmd.item())
+            totals[2] += float(align.item())
         val_metrics = {channel: evaluate_feature(model, feature) for channel, feature in val_features.items()}
         score, accuracy = select_validation_score(val_metrics)
         history.append({"epoch": epoch, "ce_source": totals[0] / steps,
-                        "ce_target": totals[1] / steps, "mmd": totals[2] / steps,
+                        "ce_target": totals[1] / steps, "align": totals[2] / steps,
                         "val_macro_f1_mean": score, "val_accuracy_mean": accuracy,
                         "val_macro_f1_DE": val_metrics["DE"]["macro_f1"],
                         "val_accuracy_DE": val_metrics["DE"]["accuracy"],
@@ -339,7 +346,7 @@ def train_adapt(model, source_feature, target_feature, val_features, batch_size=
                 "score": score, "accuracy": accuracy, "metrics": val_metrics}
         _save_progress(progress_path, best, history, steps * epoch, last)
         print(f"适配 {epoch}/{epochs}：源CE={totals[0] / steps:.4f}，目标CE={totals[1] / steps:.4f}，"
-              f"MMD={totals[2] / steps:.4f}，源验证 F1={score:.4f}，best={best['epoch']}，"
+              f"对齐={totals[2] / steps:.4f}，源验证 F1={score:.4f}，best={best['epoch']}，"
               f"耗时={perf_counter() - started:.1f}秒", flush=True)
     model.load_state_dict(best["state_dict"])
     return {"model": model, "best": best, "last": last, "history": history,
