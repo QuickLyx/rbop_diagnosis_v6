@@ -1,0 +1,385 @@
+﻿split_seed,fold,seed,comparison,candidate_arm,baseline_arm,adaptation_source,group,delta_accuracy_pp,delta_macro_f1_pp
+0,0,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,82.85714285714285,85.6149732620321
+0,0,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,68.57142857142857,69.34880278533528
+0,0,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,74.28571428571429,81.4460393407762
+0,1,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,74.28571428571429,76.25
+0,1,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,71.42857142857143,75.36602448883151
+0,1,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,71.42857142857143,76.80409259356628
+0,2,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,80.0,81.16016880722763
+0,2,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,82.85714285714285,87.13450292397661
+0,2,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,77.14285714285714,77.33058135534915
+0,3,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,65.71428571428571,71.43254173614704
+0,3,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,88.57142857142857,91.39784946236558
+0,3,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/DE,74.28571428571429,74.50386215092098
+0,0,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,94.28571428571428,93.69578134284016
+0,0,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,94.28571428571428,92.58112601765853
+0,0,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,88.57142857142857,89.8281056175793
+0,1,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,94.28571428571428,94.58333333333333
+0,1,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,94.28571428571428,93.72674109516214
+0,1,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,77.14285714285714,79.24609503556871
+0,2,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,82.85714285714285,86.48857413563296
+0,2,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,97.14285714285714,97.2355130249867
+0,2,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,62.857142857142854,76.77263459941102
+0,3,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,85.71428571428571,85.244031244231
+0,3,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,100.0,100.0
+0,3,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/DE,85.71428571428571,84.38990796374024
+0,0,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,94.28571428571428,93.69578134284016
+0,0,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,94.28571428571428,93.98597914664958
+0,0,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,94.28571428571428,94.06090985038354
+0,1,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,91.42857142857143,91.07456140350877
+0,1,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,97.14285714285714,97.2355130249867
+0,1,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,77.14285714285714,78.71699450646818
+0,2,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,94.28571428571428,93.69578134284016
+0,2,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,97.14285714285714,97.2355130249867
+0,2,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,94.28571428571428,93.72072715725966
+0,3,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,88.57142857142857,88.75280317405554
+0,3,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,100.0,100.0
+0,3,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/DE,85.71428571428571,85.00012916892712
+0,0,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,0.0,0.0
+0,0,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,0.0,0.0
+0,0,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,-2.857142857142858,-3.5397316821465408
+0,1,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,2.857142857142858,2.652179691653378
+0,1,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,-2.857142857142858,-3.5397316821465408
+0,1,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,5.714285714285716,6.468190678717001
+0,2,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,0.0,-0.16397202155716828
+0,2,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,-2.857142857142858,-3.5397316821465408
+0,2,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,0.0,0.0
+0,3,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,5.714285714285716,5.83053015927778
+0,3,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,-2.857142857142858,-2.9131652661064433
+0,3,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/DE,0.0,0.0
+0,0,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,11.428571428571429,8.080808080808081
+0,0,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,25.71428571428571,23.23232323232324
+0,0,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,14.285714285714285,8.382066276803119
+0,1,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,20.0,18.333333333333336
+0,1,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,22.857142857142854,18.36071660633064
+0,1,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,5.7142857142857135,2.4420024420024418
+0,2,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,2.8571428571428568,5.32840532840533
+0,2,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,14.285714285714285,10.1010101010101
+0,2,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,-14.285714285714285,-0.5579467559381462
+0,3,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,20.0,13.811489508083937
+0,3,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,11.428571428571429,8.602150537634408
+0,3,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/DE,11.428571428571429,9.886045812819267
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,0.0,0.0
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,0.0,0.0
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,0.0,0.0
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,0.0,-1.4048531289910597
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,0.0,-1.4048531289910597
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,0.0,-1.4048531289910597
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,-5.714285714285714,-4.232804232804233
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,-5.714285714285714,-4.232804232804233
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,-5.714285714285714,-4.232804232804233
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,2.857142857142857,3.508771929824561
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,2.857142857142857,3.508771929824561
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,2.857142857142857,3.508771929824561
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,-2.857142857142857,-3.508771929824561
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,-2.857142857142857,-3.508771929824561
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,-2.857142857142857,-3.508771929824561
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,0.0,0.5291005291005291
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,0.0,0.5291005291005291
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,0.0,0.5291005291005291
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,-11.428571428571429,-7.207207207207207
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,-11.428571428571429,-7.207207207207207
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,-11.428571428571429,-7.207207207207207
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,0.0,0.0
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,0.0,0.0
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,0.0,0.0
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,-31.428571428571427,-16.948092557848653
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,-31.428571428571427,-16.948092557848653
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,-31.428571428571427,-16.948092557848653
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,-2.857142857142857,-3.508771929824561
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,-2.857142857142857,-3.508771929824561
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,-2.857142857142857,-3.508771929824561
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,0.0,0.0
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,0.0,0.0
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,0.0,0.0
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/DE,0.0,-0.6102212051868796
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/DE,0.0,-0.6102212051868796
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/DE,0.0,-0.6102212051868796
+0,0,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,62.857142857142854,65.74584199584199
+0,0,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,74.28571428571429,79.4705513784461
+0,0,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,68.57142857142857,67.91666666666667
+0,1,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,54.285714285714285,58.353140916808144
+0,1,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,51.42857142857142,53.53163992869876
+0,1,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,65.71428571428571,66.47514436139224
+0,2,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,54.285714285714285,60.30827787860454
+0,2,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,68.57142857142857,65.52307398932113
+0,2,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,65.71428571428571,68.30694159641529
+0,3,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,60.0,61.493216106219194
+0,3,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,80.0,76.59391534391534
+0,3,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,12k_FE,12k_FE/FE,54.28571428571429,56.243449532923215
+0,0,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,74.28571428571429,77.91666666666667
+0,0,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,91.42857142857143,91.74122807017542
+0,0,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,91.42857142857143,87.91666666666667
+0,1,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,91.42857142857143,91.68647425014149
+0,1,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,85.71428571428571,81.51143790849673
+0,1,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,74.28571428571429,73.87778283613697
+0,2,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,71.42857142857143,67.52477785372521
+0,2,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,88.57142857142857,85.98684210526316
+0,2,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,54.28571428571429,69.974531112842
+0,3,0,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,88.57142857142857,85.11430090377459
+0,3,1,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,94.28571428571428,94.58333333333333
+0,3,2,CE vs joint（有监督适配总量）,ce,joint,12k_FE,12k_FE/FE,71.42857142857143,68.57609273513164
+0,0,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,74.28571428571429,77.29938271604938
+0,0,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,94.28571428571428,94.4078947368421
+0,0,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,88.57142857142857,88.78623188405797
+0,1,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,82.85714285714285,77.4007599644272
+0,1,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,91.42857142857143,92.62254901960785
+0,1,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,74.28571428571429,75.72117610742399
+0,2,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,88.57142857142857,84.15148448043183
+0,2,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,82.85714285714285,77.02352472089315
+0,2,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,65.71428571428571,68.90469351769661
+0,3,0,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,91.42857142857143,86.1244019138756
+0,3,1,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,91.42857142857143,87.91666666666667
+0,3,2,CE vs 源续训（标签本身值多少）,ce,source_continue,12k_FE,12k_FE/FE,85.71428571428571,79.24609503556871
+0,0,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.0
+0,0,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.17543859649123972
+0,0,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.0
+0,1,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,2.857142857142858,2.8968590831918495
+0,1,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.0
+0,1,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,-2.857142857142858,-2.652179691653378
+0,2,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.0
+0,2,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,2.857142857142858,1.9298245614035037
+0,2,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.0
+0,3,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,-2.857142857142858,-2.652179691653378
+0,3,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.0
+0,3,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,12k_FE,12k_FE/FE,0.0,0.0
+0,0,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,11.428571428571427,12.170824670824674
+0,0,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,17.142857142857142,12.270676691729324
+0,0,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,22.857142857142854,20.0
+0,1,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,37.142857142857146,33.33333333333333
+0,1,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,34.285714285714285,27.979797979797983
+0,1,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,8.571428571428571,7.402638474744736
+0,2,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,17.142857142857146,7.216499975120666
+0,2,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,20.0,20.46376811594203
+0,2,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,-11.428571428571427,1.6675895164267263
+0,3,0,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,28.57142857142857,23.62108479755539
+0,3,1,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,14.285714285714285,17.989417989417987
+0,3,2,adabn vs joint（无标注 BN 重估）,adabn,joint,12k_FE,12k_FE/FE,17.142857142857142,12.332643202208427
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,0.0,0.6172839506172839
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,0.0,0.6172839506172839
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,0.0,0.6172839506172839
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,-2.857142857142857,-2.666666666666667
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,-2.857142857142857,-2.666666666666667
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,-2.857142857142857,-2.666666666666667
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,2.857142857142857,-0.8695652173913042
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,2.857142857142857,-0.8695652173913042
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,2.857142857142857,-0.8695652173913042
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,8.571428571428571,14.285714285714285
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,8.571428571428571,14.285714285714285
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,8.571428571428571,14.285714285714285
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,-5.714285714285714,-11.11111111111111
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,-5.714285714285714,-11.11111111111111
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,-5.714285714285714,-11.11111111111111
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,0.0,-1.8433932712870083
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,0.0,-1.8433932712870083
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,0.0,-1.8433932712870083
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,-17.142857142857142,-16.62670662670662
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,-17.142857142857142,-16.62670662670662
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,-17.142857142857142,-16.62670662670662
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,5.714285714285714,8.963317384370017
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,5.714285714285714,8.963317384370017
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,5.714285714285714,8.963317384370017
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,-11.428571428571427,1.0698375951453898
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,-11.428571428571427,1.0698375951453898
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,-11.428571428571427,1.0698375951453898
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,-2.857142857142857,-1.010101010101011
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,-2.857142857142857,-1.010101010101011
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,-2.857142857142857,-1.010101010101011
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,2.857142857142857,6.666666666666667
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,2.857142857142857,6.666666666666667
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,2.857142857142857,6.666666666666667
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,12k_FE/FE,-14.285714285714285,-10.670002300437082
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,12k_FE/FE,-14.285714285714285,-10.670002300437082
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,12k_FE/FE,-14.285714285714285,-10.670002300437082
+0,0,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,7.500000000000007,8.436041083099887
+0,0,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,19.999999999999996,23.360750256855077
+0,0,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,7.499999999999996,7.117792148571899
+0,1,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,5.000000000000004,4.94569757727652
+0,1,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,12.5,14.977720085324098
+0,1,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,25.0,28.328664799253033
+0,2,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,20.000000000000007,15.64507474648682
+0,2,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,20.000000000000007,21.42857142857144
+0,2,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,17.500000000000004,19.893087941868426
+0,3,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,15.000000000000002,16.637454686235166
+0,3,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,25.0,26.360497687447058
+0,3,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/DE,15.000000000000002,15.844504945917027
+0,0,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,22.499999999999996,23.931845812314233
+0,0,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,17.500000000000004,19.39716482268141
+0,0,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,17.500000000000004,16.86053044394177
+0,1,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,35.0,38.23565323565323
+0,1,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,20.000000000000007,24.182049571255593
+0,1,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,15.000000000000002,16.24773315402328
+0,2,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,10.000000000000009,10.210548259328744
+0,2,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,40.0,38.93065998329157
+0,2,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,25.0,37.465737514518004
+0,3,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,27.500000000000004,31.186870412121493
+0,3,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,30.000000000000004,28.82819794584499
+0,3,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/DE,10.000000000000009,11.905111006523072
+0,0,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,12.5,11.47697675561452
+0,0,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,15.000000000000002,15.390907921687669
+0,0,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,12.5,11.485228118175039
+0,1,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,5.000000000000004,4.94569757727652
+0,1,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,22.500000000000007,25.677858726639215
+0,1,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,7.500000000000007,7.5702075702075655
+0,2,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,27.500000000000004,24.423002471782972
+0,2,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,30.000000000000004,31.201293525540297
+0,2,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,22.500000000000007,25.051692826875517
+0,3,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,25.0,26.76479912202514
+0,3,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,20.000000000000007,19.266794437073067
+0,3,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/DE,10.000000000000009,10.789501469860907
+0,0,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,0.0,0.0
+0,0,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,2.500000000000002,2.6061277224067925
+0,0,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,0.0,0.0
+0,1,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,2.500000000000002,2.640340689121179
+0,1,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,0.0,0.0
+0,1,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,-2.500000000000002,-2.8066289755396157
+0,2,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,0.0,0.0
+0,2,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,0.0,0.0
+0,2,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,2.499999999999991,2.2802942315137242
+0,3,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,-2.500000000000002,-2.640340689121179
+0,3,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,-2.500000000000002,-2.6061277224067925
+0,3,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/DE,0.0,0.0
+0,0,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,14.999999999999991,15.495804729214345
+0,0,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,-2.499999999999991,-3.9635854341736665
+0,0,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,10.000000000000009,9.742738295369868
+0,1,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,29.999999999999993,33.28995565837671
+0,1,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,7.500000000000007,9.204329485931495
+0,1,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,-9.999999999999998,-12.080931645229754
+0,2,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,-9.999999999999998,-5.434526487158076
+0,2,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,19.999999999999996,17.50208855472013
+0,2,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,7.499999999999996,17.572649572649578
+0,3,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,12.5,14.549415725886327
+0,3,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,5.000000000000004,2.4677002583979313
+0,3,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/DE,-4.999999999999993,-3.9393939393939537
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,9.999999999999998,12.454869056699714
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,9.999999999999998,12.454869056699714
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,9.999999999999998,12.454869056699714
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,2.500000000000002,4.006256900993743
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,2.500000000000002,4.006256900993743
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,2.500000000000002,4.006256900993743
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,5.000000000000004,5.375302325766729
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,5.000000000000004,5.375302325766729
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,5.000000000000004,5.375302325766729
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,29.999999999999993,33.28995565837671
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,29.999999999999993,33.28995565837671
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,29.999999999999993,33.28995565837671
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,-2.500000000000002,-1.4958091553836206
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,-2.500000000000002,-1.4958091553836206
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,-2.500000000000002,-1.4958091553836206
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,7.499999999999996,8.677525583815715
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,7.499999999999996,8.677525583815715
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,7.499999999999996,8.677525583815715
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,-17.499999999999993,-14.21245421245423
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,-17.499999999999993,-14.21245421245423
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,-17.499999999999993,-14.21245421245423
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,9.999999999999998,7.729366457751274
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,9.999999999999998,7.729366457751274
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,9.999999999999998,7.729366457751274
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,2.499999999999991,12.41404468764249
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,2.499999999999991,12.41404468764249
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,2.499999999999991,12.41404468764249
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,2.500000000000002,4.422071290096352
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,2.500000000000002,4.422071290096352
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,2.500000000000002,4.422071290096352
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,9.999999999999998,9.561403508771926
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,9.999999999999998,9.561403508771926
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,9.999999999999998,9.561403508771926
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/DE,0.0,1.1156095366621654
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/DE,0.0,1.1156095366621654
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/DE,0.0,1.1156095366621654
+0,0,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,27.500000000000004,26.9656699889258
+0,0,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,12.5,15.27196683206914
+0,0,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,22.499999999999996,20.41799108830572
+0,1,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,37.5,34.66444231150113
+0,1,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,25.0,22.486093281985465
+0,1,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,15.000000000000002,16.7420814479638
+0,2,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,15.000000000000002,16.666666666666664
+0,2,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,12.5,7.5132275132275055
+0,2,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,25.0,29.99302487793537
+0,3,0,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,12.5,14.676788589832057
+0,3,1,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,40.0,23.24929971988796
+0,3,2,CE vs adabn（标签 vs 无监督 BN）,ce,adabn,48k_DE,48k_DE/FE,7.499999999999996,7.843137254901967
+0,0,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,37.5,46.03174603174603
+0,0,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,17.499999999999993,23.663575223677526
+0,0,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,29.999999999999993,28.37295602001485
+0,1,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,92.5,87.73325755422941
+0,1,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,19.999999999999996,21.885521885521886
+0,1,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,7.499999999999996,8.576670434255574
+0,2,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,2.500000000000002,1.9607843137254832
+0,2,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,52.49999999999999,50.85972850678733
+0,2,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,35.0,51.619047619047606
+0,3,0,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,32.49999999999999,45.18518518518518
+0,3,1,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,47.5,26.76518883415434
+0,3,2,CE vs joint（有监督适配总量）,ce,joint,48k_DE,48k_DE/FE,2.500000000000002,3.7151702786377694
+0,0,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,30.000000000000004,31.511124534380354
+0,0,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,37.5,39.14129337371804
+0,0,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,9.999999999999998,7.597478267792901
+0,1,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,40.0,38.51059615765497
+0,1,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,27.500000000000004,36.675020885547205
+0,1,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,0.0,0.0
+0,2,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,17.500000000000004,21.212121212121204
+0,2,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,32.49999999999999,43.45232109937992
+0,2,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,22.499999999999996,32.49802994483847
+0,3,0,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,22.499999999999996,19.84126984126985
+0,3,1,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,40.0,26.470588235294112
+0,3,2,CE vs 源续训（标签本身值多少）,ce,source_continue,48k_DE,48k_DE/FE,7.499999999999996,8.42105263157894
+0,0,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,0.0,0.0
+0,0,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,2.500000000000002,2.701525054466236
+0,0,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,0.0,0.0
+0,1,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,2.500000000000002,2.701525054466236
+0,1,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,0.0,0.0
+0,1,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,-2.500000000000002,-2.914416974519274
+0,2,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,0.0,0.0
+0,2,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,0.0,0.0
+0,2,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,0.0,0.0
+0,3,0,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,-2.500000000000002,-2.701525054466236
+0,3,1,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,-2.500000000000002,-2.701525054466236
+0,3,2,CE+MMD vs CE（对齐项值多少）,ce_mmd,ce,48k_DE,48k_DE/FE,0.0,0.0
+0,0,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,9.999999999999998,19.066076042820235
+0,0,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,4.999999999999993,8.391608391608385
+0,0,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,7.499999999999996,7.95496493170913
+0,1,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,54.99999999999999,53.068815242728284
+0,1,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,-5.000000000000004,-0.6005713964635784
+0,1,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,-7.500000000000007,-8.165411013708223
+0,2,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,-12.5,-14.70588235294118
+0,2,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,40.0,43.34650099355982
+0,2,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,9.999999999999998,21.626022741112244
+0,3,0,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,19.999999999999996,30.508396595353126
+0,3,1,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,7.499999999999996,3.5158891142663795
+0,3,2,adabn vs joint（无标注 BN 重估）,adabn,joint,48k_DE,48k_DE/FE,-4.999999999999993,-4.127966976264197
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,7.499999999999996,14.520621497365681
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,7.499999999999996,14.520621497365681
+0,0,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,7.499999999999996,14.520621497365681
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,-20.000000000000007,-15.47771815004052
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,-20.000000000000007,-15.47771815004052
+0,0,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,-20.000000000000007,-15.47771815004052
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,19.999999999999996,20.77547775222195
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,19.999999999999996,20.77547775222195
+0,0,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,19.999999999999996,20.77547775222195
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,52.49999999999999,49.22266139657444
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,52.49999999999999,49.22266139657444
+0,1,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,52.49999999999999,49.22266139657444
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,-7.500000000000007,-14.78949900002532
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,-7.500000000000007,-14.78949900002532
+0,1,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,-7.500000000000007,-14.78949900002532
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,7.499999999999996,8.576670434255574
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,7.499999999999996,8.576670434255574
+0,1,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,7.499999999999996,8.576670434255574
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,-15.000000000000002,-19.25133689839572
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,-15.000000000000002,-19.25133689839572
+0,2,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,-15.000000000000002,-19.25133689839572
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,20.0,7.4074074074074066
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,20.0,7.4074074074074066
+0,2,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,20.0,7.4074074074074066
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,12.5,19.121017674209146
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,12.5,19.121017674209146
+0,2,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,12.5,19.121017674209146
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,9.999999999999998,25.343915343915334
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,9.999999999999998,25.343915343915334
+0,3,0,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,9.999999999999998,25.343915343915334
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,7.499999999999996,0.2946005988602285
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,7.499999999999996,0.2946005988602285
+0,3,1,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,7.499999999999996,0.2946005988602285
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,,48k_DE/FE,-4.999999999999993,-4.70588235294117
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,12k_FE,48k_DE/FE,-4.999999999999993,-4.70588235294117
+0,3,2,源续训 vs joint（额外更新步数本身）,source_continue,joint,48k_DE,48k_DE/FE,-4.999999999999993,-4.70588235294117

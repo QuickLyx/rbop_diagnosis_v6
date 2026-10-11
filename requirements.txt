@@ -1,7 +1,12 @@
 # v6 第一轮训练所需依赖（本地验证环境：Python 3.13.9 / fault-detect conda 环境）
-# 云端装成任意近版本都能跑；唯一例外是选标复算要 sklearn 1.9.0 才能逐位复现 k（详见 docs/云端运行说明.md，
+# 需要 Python ≥3.11，且按解释器版本自动选分支：numpy 2.5.x 与 scipy 1.18.x 的 requires-python 都是 ≥3.12，
+# 云端若是 Python 3.11（腾讯 Cloud Studio 默认即 3.11），下面带标记的两行会自动退回 numpy 2.4.x / scipy 1.17.x，
+# 后者只影响数值末位，不影响任何判据（docs/云端运行说明.md §2）。
+# 唯一真正版本敏感的是选标复算要 sklearn 1.9.0 才能逐位复现 k（详见 docs/云端运行说明.md，
 # 正常情况下云端不重跑 selection.py，直接用仓库里已冻结的 selection.json）。
 torch==2.6.0          # 云端 T4 用 CUDA 版即可：pip install torch --index-url https://download.pytorch.org/whl/cu124
-numpy==2.5.2
-scipy==1.18.1
-scikit-learn==1.9.0
+numpy==2.5.2; python_version >= "3.12"
+numpy>=2.3,<2.5; python_version < "3.12"
+scipy==1.18.1; python_version >= "3.12"
+scipy>=1.14,<1.18; python_version < "3.12"
+scikit-learn==1.9.0   # 自 1.9.0 起才要求 Python ≥3.11，与上面两条分支都兼容
