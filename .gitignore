@@ -1,0 +1,26 @@
+# 训练产物：权重与中间 checkpoint 不入库（60+24 个流程约 300MB，且云端会重新生成）
+outputs/v6_round1/train/
+
+# 运行日志与冒烟遗留（本机管道检查，不作正式结果）
+outputs/v6_round1/logs/
+outputs/v6_round1/_smoke/
+*.log
+
+# 评估结果默认可以入库（每个目录 metrics.json/predictions.csv/eval_info.json，总量约 1MB）
+# 若嫌历史臃肿，把这行取消注释即可连评估产物一起忽略：
+# outputs/v6_round1/eval/
+
+# 杂项
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+Thumbs.db
+
+# 入库内容清单（务必随仓库带上云端）：
+#   Data/                          657MB  161 个 .mat（Normal/12k_DE/12k_FE/48k_DE）
+#   weights/v5_joint/               42MB  12 个 joint last.pt + config.json（起点权重）
+#   outputs/v6_round1/selection/selection.json   已冻结标注池（云端不要重算）
+#   outputs/v6_round1/frozen_plan_v6.json        冻结计划
+#   *.py / run_v6.sh / docs/ / requirements.txt

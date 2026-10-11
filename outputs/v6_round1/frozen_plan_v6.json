@@ -1,0 +1,141 @@
+{
+  "protocol": "v6_round1",
+  "status": "标注池已复算并冻结；训练未开始（等授权）",
+  "frozen_at": "2026-10-11",
+  "code_root": "rbop_diagnosis_v6",
+  "output_root": "outputs/v6_round1",
+  "data_root": "../rbop_diagnosis_v4/Data",
+  "v5_read_only_root": "../rbop_diagnosis_v5",
+  "selection": {
+    "script": "selection.py",
+    "path": "outputs/v6_round1/selection/selection.json",
+    "representation": "logspec512",
+    "feature": "512 点不重叠切窗 → logspec512 → 文件内窗口均值 → DE+FE 拼接 512 维 → 候选集按维 z-score(ddof=0)",
+    "short_record_rule": "DE 窗口数 < 0.5 × 全体中位数，只约束进池不约束评估",
+    "k_search": [6, 20],
+    "silhouette_tolerance": 0.95,
+    "kmeans": {"n_init": 25, "random_state": 0},
+    "representative": "每簇 medoid（到簇心欧氏距离最小），同分按 file_key 升序；单例簇排名额序列最后",
+    "budget": "K = Σ_j max(1, round(p·n_j))，本轮 p=0",
+    "label_ratio_p": 0.0,
+    "metadata_used_in_selection": false,
+    "result": {
+      "12k_FE": {"candidates": 45, "median_windows": 236.0, "excluded_short": 0,
+                 "k": 10, "K": 10, "singleton_clusters": 0,
+                 "class_size_coverage": "9/9", "class_size_position_coverage": "10/13",
+                 "test_files": 35, "test_records": 70, "empty_layers": 0},
+      "48k_DE": {"candidates": 46, "median_windows": 237.0, "excluded_short": 6,
+                 "k": 12, "K": 12, "singleton_clusters": 0,
+                 "class_size_coverage": "9/9", "class_size_position_coverage": "12/13",
+                 "test_files": 40, "test_records": 80, "empty_layers": 0}
+    },
+    "correction_vs_draft": {
+      "48k_DE_k": "草案会话内数字 k=13/K=13 来自短记录阈值取整（118），复算按协议原文 <0.5×中位（118.5）把 OR007@6_0（118 窗）一并过滤，得 k=12/K=12；按协议 §9 与迁移清单 §6.2，以脚本为准",
+      "excluded_short": "草案写「命中 5 个：31/60/60/63/63」，实测 6 个：31/60/62/63/63/118"
+    }
+  },
+  "criterion": {
+    "metric": "记录级准确率（同文件同通道窗口概率平均后单次判类）",
+    "threshold": 0.95,
+    "aggregation": "按目标来源取均值；同时报宏平均、最差格与过 95% 格数",
+    "fixed_before_training": true,
+    "may_change_after_results": false
+  },
+  "partition": {
+    "folds": [0, 1, 2, 3],
+    "seeds": [0, 1, 2],
+    "source_split_seed": 0,
+    "target_split_seed": "塌缩为 1 档：选标只用无标签信号，池与 fold/seed/划分无关",
+    "test_list": "全部目标文件 − 冻结池，所有臂与基线共用",
+    "no_extra_seeds_or_folds": true,
+    "no_candidate_bootstrap": true
+  },
+  "arms": {
+    "ce": {"mode": "ce_adapt", "runs": 24, "note": "2 来源 × 4 折 × 3 seed"},
+    "ce_mmd": {"mode": "mmd_adapt", "runs": 24, "lambda_mmd": 0.3, "note": "2 来源 × 4 折 × 3 seed"},
+    "source_continue": {"mode": "source_continue", "runs": 12, "note": "不分目标来源，两来源各评"},
+    "adabn": {"mode": "adabn", "runs": 24, "note": "无梯度分支，updates 恒 0，仅目标池前向更新 BN"},
+    "joint": {"mode": "baseline", "runs": 0, "note": "复用 v5 joint last.pt，在 v6 列表上各折各种子做一次无梯度前向评估"}
+  },
+  "training_frozen_params": {
+    "starting_checkpoint": "同 fold 同 seed 的 v5 joint outputs/stage1_v2_round2/train/f{fold}_s{seed}_joint/last.pt",
+    "optimizer": "新建 Adam，不继承源阶段状态",
+    "learning_rate": 0.0001,
+    "batch_size": 64,
+    "epochs": 30,
+    "s_ref_rule": "恒按 512 点口径从源 config 取，不按目标文件数重算",
+    "steps_per_epoch_by_fold": {"0": 155, "1": 156, "2": 155, "3": 155},
+    "updates_by_fold": {"0": 4650, "1": 4680, "2": 4650, "3": 4650},
+    "s_ref_by_fold": {"0": 9863, "1": 9983, "2": 9866, "3": 9861},
+    "checkpoint_selection": "正式取末轮 last.pt（selection_rule=last），源验证只记录不择优",
+    "target_validation": "无目标验证集",
+    "ce_loss": "源重放 + 目标，普通交叉熵，不叠类别权重（均衡由 WeightedRandomSampler 承担）",
+    "mmd": {"lambda": 0.3, "sigma": [1, 5, 10], "estimator": "biased", "shared_classes": [1, 2, 3],
+             "class_weighting": "逐类等权平均", "min_samples_per_class": 2,
+             "skip_class_when_insufficient": true, "fallback_to_global": false},
+    "no_target_signal_in": ["bn_update_of_test_files", "alignment", "pseudo_labels", "model_selection"],
+    "record_level_eval": "先按同文件同通道做窗口概率平均，再单次判类",
+    "macro_f1": "按有真值的类平均；无正常测试则正常召回留空",
+    "std": "ddof=1"
+  },
+  "control_arm_alignment": {
+    "requirement": "source_continue 与 ce 的 learning_rate/epochs/steps_per_epoch/updates 逐字段相同（同折取自源 config）",
+    "correction_vs_draft": "草案把 155/4650 写成全局常量，实际按折为 f0/f2/f3=155/4650、f1=156/4680",
+    "claim_limit": "只对齐额外更新步数，不声称匹配全部 FLOPs"
+  },
+  "pairing_chain": [
+    "source_continue vs joint",
+    "adabn vs joint",
+    "ce vs joint",
+    "ce vs source_continue",
+    "ce vs adabn",
+    "ce_mmd vs ce"
+  ],
+  "pairing_conditions": "同 split_seed/fold/seed、同 来源/通道、双方实际测试文件列表逐项一致；负增量完整保留；链已写死不增删",
+  "cross_version_dependency": {
+    "v5_joint_checkpoint": "按文件名 last.pt + selection_rule=last 认定末轮（v5 config 无 checkpoint_kind）",
+    "v5_dir": "只读，不写入、不覆盖",
+    "forbid_cross_version_subtraction": true
+  },
+  "pre_registered_fallback": {
+    "trigger": "记录级准确率按来源均值未到 95%",
+    "first_step": "零算力错误结构分析：用 predictions.csv 看错分集中在哪一类/哪一层、是否整档塌成一类、源模型系统性错分残留多少",
+    "then_decide": ["源域构造（跨尺寸/跨批次增广）", "分类头（原型或序数损失）", "对齐项"],
+    "forbidden": ["看到分数后临时加臂", "临时改 k 或容差", "追加 seed/折求稳健"]
+  },
+  "not_running": ["envelope4096", "logspec4096", "median 核 MMD", "target_only", "src_ce_target_bn",
+                  "random13/stratified13 对照", "候选集 bootstrap", "跨版本配对"],
+  "runner": {"script": "run_v6.sh",
+              "actions": ["baseline", "continue", "adabn", "adapt", "summary", "status", "one"],
+              "units_total": 96,
+              "progress": "每单元打印 [i/N]、本单元耗时、累计耗时与按均值推算的剩余分钟；status 只读列出完成数与下一个单元",
+              "retry_policy": "失败单独重跑该目录并加 _retry1 后缀（one <type> <source> <fold> <seed> retry1）；smoke 后缀写 _smoke/ 不进汇总；不引入调度器与进度状态机"},
+  "cloud_package": {
+    "target": "Cloud Studio 远端 T4，git clone 即用",
+    "bundled_data": {"path": "Data/", "size_mb": 657, "mat_files": 161,
+                      "per_source": {"Normal": 4, "12k_DE": 60, "12k_FE": 45, "48k_DE": 52},
+                      "provenance": "从 rbop_diagnosis_v4/Data 逐字节复制；v4/v5 原目录仍只读"},
+    "bundled_weights": {"path": "weights/v5_joint/f{fold}_s{seed}_joint/{last.pt,config.json}",
+                         "count": 12, "size_mb": 42,
+                         "provenance": "复制自 v5 outputs/stage1_v2_round2/train，12/12 sha256 与原文件一致"},
+    "default_paths": {"data_root": "v6/Data（dataset.default_data_root 先查本地再回退 v4）",
+                       "source_checkpoint_root": "v6/weights/v5_joint"},
+    "do_not_rerun_on_cloud": "selection.py（池已冻结且随仓库提交；重算依赖 scikit-learn 版本）",
+    "measured": {"device": "GTX 1650 Ti / torch 2.6.0+cu124", "ce_adapt_unit_minutes": 3.9,
+                  "per_epoch_seconds": "6-8", "all_96_units_estimate_hours_serial": "4-4.5"},
+    "gitignore": ["outputs/v6_round1/train/", "outputs/v6_round1/logs/", "outputs/v6_round1/_smoke/"],
+    "commit_back": ["outputs/v6_round1/summary/", "outputs/v6_round1/eval/"]
+  },
+  "config_json_required_fields": ["protocol", "arm", "selection_rule", "selected_checkpoint",
+                                    "checkpoint_kind", "checkpoint_epoch", "s_ref", "steps_per_epoch",
+                                    "updates", "pool_file_count", "actual_label_ratio", "target_source",
+                                    "lambda_mmd", "representation"],
+  "dir_naming": {
+    "train": "outputs/v6_round1/train/{12k_FE|48k_DE}_{ce_adapt|mmd_adapt|adabn}_f{fold}_s{seed} 与 train/source_continue_f{fold}_s{seed}",
+    "eval": "outputs/v6_round1/eval/<同名> 与 eval/joint_f{fold}_s{seed}",
+    "summary": "outputs/v6_round1/summary（含 detail/grouped/paired_comparisons/criterion/report）"
+  },
+  "expected_complete_train_flows": 60,
+  "expected_no_gradient_runs": 24,
+  "estimated_serial_hours": 3.0
+}

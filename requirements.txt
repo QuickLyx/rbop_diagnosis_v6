@@ -1,0 +1,7 @@
+# v6 第一轮训练所需依赖（本地验证环境：Python 3.13.9 / fault-detect conda 环境）
+# 云端装成任意近版本都能跑；唯一例外是选标复算要 sklearn 1.9.0 才能逐位复现 k（详见 docs/云端运行说明.md，
+# 正常情况下云端不重跑 selection.py，直接用仓库里已冻结的 selection.json）。
+torch==2.6.0          # 云端 T4 用 CUDA 版即可：pip install torch --index-url https://download.pytorch.org/whl/cu124
+numpy==2.5.2
+scipy==1.18.1
+scikit-learn==1.9.0
