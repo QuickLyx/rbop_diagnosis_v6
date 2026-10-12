@@ -8,6 +8,9 @@
 
 评估纪律：测试前向无梯度且不更新 BN（结束逐键校验权重与 BN 未变）；
 记录级指标先按"同文件同通道"做窗口概率平均再单次判类；
+文件级指标（2026-10-12 协议修订新增，见 `docs/v6通道融合零算力分析.md` §8）：
+同文件 DE/FE 两条记录级概率等权平均后单次判类，与记录级并报不替代，
+只是把判读单元从"文件×通道"改为"文件"，不涉及任何新数据或第二次前向；
 `Macro-F1` 按有真值的类平均，无正常测试则正常召回留空；标准差一律 `ddof=1`。
 """
 import argparse
@@ -20,7 +23,16 @@ import torch
 import dataset as ds
 import preprocessing as pp
 from model import MSRSABiLSTM
-from trainer import DEVICE, dump_json, evaluate_feature, load_checkpoint
+from trainer import DEVICE, _class_metrics, dump_json, evaluate_feature, load_checkpoint
+
+#: 文件级融合口径的规则声明（写入每个 eval_info.json，防止与汇总口径脱钩）。
+FILE_FUSION_RULE = {
+    "reading_unit": "file",
+    "rule": "同文件 DE/FE 记录级概率等权平均后单次判类",
+    "adopted_at": "2026-10-12",
+    "evidence": "docs/v6通道融合零算力分析.md（零算力错误结构分析，事后决策）",
+    "replaces_record_level": False,
+}
 
 #: v6 六对配对链：(候选臂, 基线臂, 名称)，训练前写死（协议 §7）。
 PAIRS = (
@@ -50,10 +62,42 @@ def _model_from_checkpoint(checkpoint_path, require_v6=True):
     return model, config
 
 
+def _fuse_file_metrics(predictions):
+    """从记录级 predictions 行内存数据算文件级融合指标（纯 CPU 聚合，无前向）。
+
+    同文件取 DE/FE 两条记录级概率等权平均后判类；
+    通道不全（非 DE+FE 各一条）或两通道真值不一致直接报错，不静默降级。
+    """
+    by_file = {}
+    for row in predictions:
+        entry = by_file.setdefault(row["file"], {"channels": [], "probs": [], "true": set()})
+        entry["channels"].append(row["test_channel"])
+        entry["probs"].append([row[f"prob_{label}"] for label in ds.LABEL_NAMES])
+        entry["true"].add(row["true"])
+    fused_rows, true_labels, pred_labels = [], [], []
+    for file_key in sorted(by_file):
+        entry = by_file[file_key]
+        if sorted(entry["channels"]) != ["DE", "FE"]:
+            raise ValueError(f"{file_key} 的通道组不是 DE+FE 各一条，拒绝融合：{entry['channels']}")
+        if len(entry["true"]) != 1:
+            raise ValueError(f"{file_key} 两通道真值标签不一致，拒绝融合")
+        probs = [sum(p[i] for p in entry["probs"]) / len(entry["probs"])
+                 for i in range(len(ds.LABEL_NAMES))]
+        true_label = entry["true"].pop()
+        pred_label = max(range(len(probs)), key=probs.__getitem__)
+        fused_rows.append({"file": file_key, "true": true_label, "pred": pred_label,
+                           **{f"prob_{label}": probs[index]
+                              for index, label in enumerate(ds.LABEL_NAMES)}})
+        true_labels.append(true_label)
+        pred_labels.append(pred_label)
+    return _class_metrics(true_labels, pred_labels, n_classes=len(ds.LABEL_NAMES)), fused_rows
+
+
 def evaluate_groups(model, repr_config, data_root, sources):
     """在 v6 冻结测试列表上做记录级评估，返回 (metrics, predictions)。
 
     只读 test 文件信号，不读池内文件的测试视图；每个文件×通道是一条记录。
+    另按 FILE_FUSION_RULE 给出文件级融合指标（组名 `来源/file_fused`），与记录级并报。
     """
     splits = ds.target_split_v6(data_root)
     records = ds.enumerate_target_files(data_root)
@@ -84,6 +128,14 @@ def evaluate_groups(model, repr_config, data_root, sources):
                                     "pred": int(pred), "window_count": int(count),
                                     **{f"prob_{label}": float(probs[index])
                                        for index, label in enumerate(ds.LABEL_NAMES)}})
+        source_rows = [row for row in predictions if row["target_source"] == source]
+        file_metrics, fused_rows = _fuse_file_metrics(source_rows)
+        result[f"{source}/file_fused"] = {
+            key: value for key, value in file_metrics.items()
+            if key not in ("record_keys", "predictions", "probabilities", "true")
+        }
+        for row in fused_rows:
+            predictions.append({"target_source": source, "test_channel": "file_fused", **row})
     return result, predictions
 
 
@@ -93,7 +145,10 @@ def _write_predictions(path, predictions):
     with Path(path).open("x", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
-        writer.writerows(predictions)
+        for row in predictions:
+            handle_row = dict(row)
+            handle_row.setdefault("window_count", "")  # file_fused 行无窗口数
+            writer.writerow(handle_row)
 
 
 def write_eval_output(output_dir, model, metrics, predictions, info, before):
@@ -142,6 +197,7 @@ def evaluate_run(run_dir, output_dir=None, data_root=None):
         "split_seed": config["split_seed"],
         "trained_target_source": config.get("target_source"),
         "evaluated_sources": sources,
+        "file_fusion": FILE_FUSION_RULE,
         "test_files": {group: sorted(row["file"] for row in predictions
                                      if f"{row['target_source']}/{row['test_channel']}" == group)
                        for group in metrics},
@@ -189,6 +245,7 @@ def evaluate_joint(checkpoint_dir, output_dir, data_root=None):
         "split_seed": config["split_seed"],
         "trained_target_source": None,
         "evaluated_sources": sources,
+        "file_fusion": FILE_FUSION_RULE,
         "test_files": {group: sorted(row["file"] for row in predictions
                                      if f"{row['target_source']}/{row['test_channel']}" == group)
                        for group in metrics},
@@ -333,29 +390,41 @@ def _arm_needs_source(arm):
 
 
 def _criterion_rows(detail):
-    """按来源给记录级准确率的均值、最差格与过线格比例，对照 ≥95% 的达标判据。"""
+    """按来源给记录级与文件级融合准确率的均值、最差格与过线格比例，对照 ≥95% 的达标判据。
+
+    记录级（reading_unit=record）是训练前冻结的原判据，一个字不改；
+    文件级（reading_unit=file，test_channel=file_fused）是 2026-10-12 协议修订
+    新增的并报口径（事后决策，见 `docs/v6通道融合零算力分析.md` §8），不替代记录级。
+    """
     rows = []
     for arm in sorted({row["arm"] for row in detail}):
-        per_source = {}
-        for source in ds.TARGET_DATASETS:
-            values = [row["accuracy"] for row in detail
-                      if row["arm"] == arm and row["target_source"] == source]
-            if not values:
-                continue
-            mean, std = _mean_std(values)
-            per_source[source] = (mean, std, values)
-            rows.append({"arm": arm, "target_source": source, "n_cells": len(values),
-                         "accuracy_mean": mean, "accuracy_std": std,
-                         "worst_cell": min(values), "cells_over_95": sum(v >= CRITERION_ACCURACY for v in values),
-                         "pass_95": mean >= CRITERION_ACCURACY})
-        if len(per_source) == len(ds.TARGET_DATASETS):
-            macro = float(sum(value[0] for value in per_source.values()) / len(per_source))
-            all_values = [value for item in per_source.values() for value in item[2]]
-            rows.append({"arm": arm, "target_source": "宏平均", "n_cells": len(all_values),
-                         "accuracy_mean": macro, "accuracy_std": _mean_std(all_values)[1] if len(all_values) > 1 else 0.0,
-                         "worst_cell": min(all_values),
-                         "cells_over_95": sum(v >= CRITERION_ACCURACY for v in all_values),
-                         "pass_95": macro >= CRITERION_ACCURACY})
+        for unit, channel_key in (("record", None), ("file", "file_fused")):
+            per_source = {}
+            for source in ds.TARGET_DATASETS:
+                values = [row["accuracy"] for row in detail
+                          if row["arm"] == arm and row["target_source"] == source
+                          and (row["test_channel"] == channel_key
+                               if channel_key else row["test_channel"] != "file_fused")]
+                if not values:
+                    continue
+                mean, std = _mean_std(values)
+                per_source[source] = (mean, std, values)
+                rows.append({"arm": arm, "reading_unit": unit, "target_source": source,
+                             "n_cells": len(values),
+                             "accuracy_mean": mean, "accuracy_std": std,
+                             "worst_cell": min(values),
+                             "cells_over_95": sum(v >= CRITERION_ACCURACY for v in values),
+                             "pass_95": mean >= CRITERION_ACCURACY})
+            if len(per_source) == len(ds.TARGET_DATASETS):
+                macro = float(sum(value[0] for value in per_source.values()) / len(per_source))
+                all_values = [value for item in per_source.values() for value in item[2]]
+                rows.append({"arm": arm, "reading_unit": unit, "target_source": "宏平均",
+                             "n_cells": len(all_values),
+                             "accuracy_mean": macro,
+                             "accuracy_std": _mean_std(all_values)[1] if len(all_values) > 1 else 0.0,
+                             "worst_cell": min(all_values),
+                             "cells_over_95": sum(v >= CRITERION_ACCURACY for v in all_values),
+                             "pass_95": macro >= CRITERION_ACCURACY})
     return rows
 
 
@@ -374,11 +443,14 @@ def _write_report(path, detail, grouped, comparisons, criteria, entries):
             f"{len(comparisons)} 行配对差值。", "",
             "达标判据：记录级准确率按来源的均值 ≥95%（训练前写死）。逐格值、最差格与过线格比例全部保留；"
             "标准差为样本标准差（ddof=1），描述运行间波动而不是独立测试样本的置信区间。", "",
-            "## 判据核对", "",
-            "| 臂 | 来源 | 格数 | 准确率均值 (%) | 样本标准差 (%) | 最差格 (%) | 过 95% 格数 | 达标 |",
-            "| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |"]
+            "文件级融合口径（reading_unit=file，2026-10-12 协议修订新增，事后决策）："
+            "同文件 DE/FE 记录级概率等权平均后单次判类，与记录级并报不替代；"
+            "依据与边界见 `docs/v6通道融合零算力分析.md`。", "",
+            "## 判据核对（record=训练前冻结的原判据；file=2026-10-12 修订新增口径）", "",
+            "| 臂 | 口径 | 来源 | 格数 | 准确率均值 (%) | 样本标准差 (%) | 最差格 (%) | 过 95% 格数 | 达标 |",
+            "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- |"]
     for row in criteria:
-        text.append(f"| {row['arm']} | {row['target_source']} | {row['n_cells']} | "
+        text.append(f"| {row['arm']} | {row['reading_unit']} | {row['target_source']} | {row['n_cells']} | "
                     f"{100 * row['accuracy_mean']:.2f} | {100 * row['accuracy_std']:.2f} | "
                     f"{100 * row['worst_cell']:.2f} | {row['cells_over_95']} | "
                     f"{'是' if row['pass_95'] else '否'} |")
@@ -408,6 +480,8 @@ def _write_report(path, detail, grouped, comparisons, criteria, entries):
              "- 目标域无 Normal 类，正常召回为 null，Macro-F1 只平均有真值的三类，不能验证正常误报率。",
              "- 同文件的 DE/FE 是两条记录但不是独立采集，逐格值不是独立样本。",
              "- 本轮 `source_continue` 只对齐额外更新步数，不声称匹配全部 FLOPs。",
+             "- 文件级口径的决策单元为 35/40 个文件，单条分辨率粗于记录级（2.5–2.86pp 对 1.25–1.43pp），"
+             "最差 run 的过线余量更薄；两种口径必须并报，不得只用文件级。",
              "- 跨版本纪律：v6 测试列表与 v5 不同，禁止与 v5 任何数字相减。", ""]
     path.write_text("\n".join(text), encoding="utf-8")
 
